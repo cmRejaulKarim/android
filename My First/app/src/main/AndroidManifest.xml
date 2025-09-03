@@ -28,9 +28,9 @@
             </intent-filter>
         </activity> <!-- Your main app activity -->
 
-        <!--        <activity-->
-        <!--            android:name=".MainActivity"-->
-        <!--            android:exported="false" />-->
+<!--                <activity-->
+<!--                    android:name=".MainActivity"-->
+<!--                    android:exported="false" />-->
 
         <activity
             android:name=".Home"

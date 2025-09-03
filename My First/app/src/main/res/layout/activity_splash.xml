@@ -6,6 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#756C6C"
     tools:context=".Splash">
 
 
@@ -13,12 +14,18 @@
       android:id="@+id/splashText"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textSize="30sp"
-      android:textColor="#ffffff"
-      android:textStyle="bold"
-      android:ellipsize="none"
+      android:layout_centerInParent="true"
       android:text=""
-  />
+      android:textSize="32sp"
+      android:textColor="#8C3636"
+      android:textStyle="bold"
+      android:fontFamily="sans-serif-medium"
+      android:letterSpacing="0.05"
+      android:shadowColor="#55000000"
+      android:shadowDx="2"
+      android:shadowDy="2"
+      android:shadowRadius="4"
+      />
 
 
 

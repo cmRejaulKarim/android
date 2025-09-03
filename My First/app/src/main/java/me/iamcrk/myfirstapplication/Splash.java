@@ -28,19 +28,18 @@ public class Splash extends AppCompatActivity {
     private Runnable characterAdder = new Runnable() {
         @Override
         public void run() {
-            splashText.setText(message.substring(0,index++));
-
-            if (index <= message.length()){
-                handler.postDelayed(characterAdder,delay);
-            }
-            else {
+            if (index < message.length()) {
+                splashText.setText(message.substring(0, index + 1));
+                index++;
+                handler.postDelayed(this, delay);
+            } else {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(getApplicationContext(), Home.class));
                     finish();
-                },1000);
+                }, 500);
             }
-
         }
+
     };
 
     @Override
