@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFirstApplication">
         <activity
@@ -16,7 +16,7 @@
             android:exported="false" />
         <activity
             android:name=".Subject"
-            android:exported="false" /> <!-- Splash should be the LAUNCHER -->
+            android:exported="false" />
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -27,9 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Your main app activity -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+
+        <!--        <activity-->
+        <!--            android:name=".MainActivity"-->
+        <!--            android:exported="false" />-->
+
         <activity
             android:name=".Home"
             android:exported="false" />

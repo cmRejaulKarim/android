@@ -41,66 +41,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MyFirstApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AnimatedGreetingScreen(modifier = Modifier.padding(innerPadding))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun AnimatedGreetingScreen(modifier: Modifier = Modifier) {
-    // Control the animation visibility
-    var visible by remember { mutableStateOf(false) }
-
-    // Trigger the animation when this composable enters composition
-    LaunchedEffect(Unit) {
-        visible = true
-    }
-
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF6A11CB),
-                        Color(0xFF2575FC)
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
                     )
-                )
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        AnimatedVisibility(
-            visible = visible,
-            enter = fadeIn(animationSpec = tween(durationMillis = 1000)) +
-                    slideInVertically(
-                        initialOffsetY = { it / 2 },
-                        animationSpec = tween(durationMillis = 1000)
-                    )
-        ) {
-            Card(
-                modifier = Modifier.padding(16.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White.copy(alpha = 0.2f)
-                ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(24.dp)
-                ) {
-                    Greeting(name = "Reja")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    GreetingMessage(name = "Reja")
                 }
             }
         }
@@ -110,19 +62,7 @@ fun AnimatedGreetingScreen(modifier: Modifier = Modifier) {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hey $name! 👋",
-        style = MaterialTheme.typography.headlineSmall,
-        color = Color.White,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun GreetingMessage(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Glad to see you here! Let’s explore something amazing today 🚀",
-        style = MaterialTheme.typography.headlineMedium,
-        color = Color.White,
+        text = "Hello $name!",
         modifier = modifier
     )
 }
@@ -131,6 +71,99 @@ fun GreetingMessage(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     MyFirstApplicationTheme {
-        AnimatedGreetingScreen()
+        Greeting("Android")
     }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//        setContent {
+//            MyFirstApplicationTheme {
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    AnimatedGreetingScreen(modifier = Modifier.padding(innerPadding))
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//@Composable
+//fun AnimatedGreetingScreen(modifier: Modifier = Modifier) {
+//    // Control the animation visibility
+//    var visible by remember { mutableStateOf(false) }
+//
+//    // Trigger the animation when this composable enters composition
+//    LaunchedEffect(Unit) {
+//        visible = true
+//    }
+//
+//    Box(
+//        modifier = modifier
+//            .fillMaxSize()
+//            .background(
+//                Brush.verticalGradient(
+//                    colors = listOf(
+//                        Color(0xFF6A11CB),
+//                        Color(0xFF2575FC)
+//                    )
+//                )
+//            ),
+//        contentAlignment = Alignment.Center
+//    ) {
+//        AnimatedVisibility(
+//            visible = visible,
+//            enter = fadeIn(animationSpec = tween(durationMillis = 1000)) +
+//                    slideInVertically(
+//                        initialOffsetY = { it / 2 },
+//                        animationSpec = tween(durationMillis = 1000)
+//                    )
+//        ) {
+//            Card(
+//                modifier = Modifier.padding(16.dp),
+//                shape = RoundedCornerShape(16.dp),
+//                colors = CardDefaults.cardColors(
+//                    containerColor = Color.White.copy(alpha = 0.2f)
+//                ),
+//                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+//            ) {
+//                Column(
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    verticalArrangement = Arrangement.Center,
+//                    modifier = Modifier.padding(24.dp)
+//                ) {
+//                    Greeting(name = "Reja")
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                    GreetingMessage(name = "Reja")
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//@Composable
+//fun Greeting(name: String, modifier: Modifier = Modifier) {
+//    Text(
+//        text = "Hey $name! 👋",
+//        style = MaterialTheme.typography.headlineSmall,
+//        color = Color.White,
+//        modifier = modifier
+//    )
+//}
+//
+//@Composable
+//fun GreetingMessage(name: String, modifier: Modifier = Modifier) {
+//    Text(
+//        text = "Glad to see you here! Let’s explore something amazing today 🚀",
+//        style = MaterialTheme.typography.headlineMedium,
+//        color = Color.White,
+//        modifier = modifier
+//    )
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    MyFirstApplicationTheme {
+//        AnimatedGreetingScreen()
+//    }
 }
