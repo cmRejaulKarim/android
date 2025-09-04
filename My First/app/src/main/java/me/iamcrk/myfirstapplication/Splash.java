@@ -17,7 +17,7 @@ public class Splash extends AppCompatActivity {
 
     private TextView splashText;
 
-    private String message = "Welcome to JEE-64";
+    private String message = "Welcome to IsDB-BISEW";
 
     private int index = 0;
 

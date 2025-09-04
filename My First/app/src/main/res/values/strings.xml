@@ -1,4 +1,22 @@
 <resources>
-    <string name="app_name">JEE-64</string>
-    <string name="des">The IsDB-BISEW IT Scholarship Programme was launched in 2003 with the aim of enhancing the employment prospects of meritorious Muslim youths who come from financially disadvantaged background.</string>
+    <string name="app_name">IsDB-BISEW</string>
+
+    <string name="des">The IsDB-BISEW IT Scholarship Programme was launched in 2003 with the aim of enhancing the employment prospects
+        of meritorious Muslim youths who come from financially disadvantaged backgrounds.
+    </string>
+
+    <string name="des2">Since its inception, the programme has been playing a pioneering role in transforming underprivileged but talented young people into skilled IT professionals.
+        The scholarship covers all training expenses and provides world-class education in cutting-edge technologies such as software engineering,
+        database management, networking, web development, graphics,
+        and emerging fields like cloud computing and cybersecurity.
+    </string>
+
+    <string name="des3">Graduates of the programme have consistently secured rewarding employment both in Bangladesh and abroad,
+        contributing significantly to the country’s growing IT sector. With strong industry linkage and continuous updates to the curriculum,
+        the IsDB-BISEW IT Scholarship ensures that its participants remain competitive in the ever-evolving global job market.
+    </string>
+
+    <string name="des4">The initiative is widely recognized as one of the most impactful human resource development programmes in Bangladesh,
+        opening doors of opportunity for thousands of young men and women who would otherwise struggle to access higher technical education.
+    </string>
 </resources>

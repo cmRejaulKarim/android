@@ -68,8 +68,8 @@ public class Round extends AppCompatActivity {
                             "   let interval = setInterval(function() {" +
                             "       window.scrollTo(0,0);" +
                             "       tries++;" +
-                            "       if (tries > 3) clearInterval(interval);" + // stop after ~2s//300ms
-                            "   }, 100);" +
+                            "       if (tries > 3) clearInterval(interval);" + // stop after ~2s//200ms
+                            "   }, 30);" +
                             "   document.querySelectorAll('input,textarea,select').forEach(function(el) {" +
                             "       el.blur();" + // prevent focus from stealing scroll
                             "   });" +
