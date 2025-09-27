@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="me.iamcrk.medinfo" />
+                  <option name="mobileSdkAppId" value="1:25832149088:android:29bb2b66c30d41b9677305" />
+                  <option name="projectId" value="firebasetest-e9e9fb1d" />
+                  <option name="projectNumber" value="25832149088" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
