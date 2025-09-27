@@ -2,6 +2,7 @@ package me.iamcrk.medinfo;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private void searchMedicine(String name) {
         String searchText = name.toLowerCase(); // lowercase for consistent search
 
+
         // Get all medicines and filter client-side
         db.collection("medicines")
                 .get()
@@ -57,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         StringBuilder resultBuilder = new StringBuilder();
                         boolean found = false;
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            String medSearchName = document.getString("searchName");
+                            Log.d("DEBUG_FIRESTORE", "Document searchName: " + medSearchName + ", searching for: " + searchText);
+                        }
+
 
                         for (DocumentSnapshot document : queryDocumentSnapshots) {
                             String medSearchName = document.getString("searchName");
