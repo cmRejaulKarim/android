@@ -48,10 +48,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchMedicine(String name) {
-        db.collection("medicines").document(name)
+        db.collection("medicines")
+                .whereEqualTo("name", name) // search by field instead of doc ID
                 .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+
                         String medName = documentSnapshot.getString("name");
                         String description = documentSnapshot.getString("description");
                         String uses = documentSnapshot.getString("uses");
@@ -69,4 +72,28 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> textViewResult.setText("Error: " + e.getMessage()));
     }
+
+
+//    private void searchMedicine(String name) {
+//        db.collection("medicines").document(name)
+//                .get()
+//                .addOnSuccessListener(documentSnapshot -> {
+//                    if (documentSnapshot.exists()) {
+//                        String medName = documentSnapshot.getString("name");
+//                        String description = documentSnapshot.getString("description");
+//                        String uses = documentSnapshot.getString("uses");
+//                        String sideEffects = documentSnapshot.getString("sideEffects");
+//
+//                        String result = "Name: " + medName + "\n\n" +
+//                                "Description: " + description + "\n\n" +
+//                                "Uses: " + uses + "\n\n" +
+//                                "Side Effects: " + sideEffects;
+//
+//                        textViewResult.setText(result);
+//                    } else {
+//                        textViewResult.setText("Medicine not found.");
+//                    }
+//                })
+//                .addOnFailureListener(e -> textViewResult.setText("Error: " + e.getMessage()));
+//    }
 }
