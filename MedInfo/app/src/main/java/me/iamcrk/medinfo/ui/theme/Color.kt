@@ -2,10 +2,12 @@ package me.iamcrk.medinfo.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Light theme colors
+val Purple80 = Color(0xFF9C6AFF)     // Brighter purple
+val PurpleGrey80 = Color(0xFF9E8CA0) // Softer purple-grey
+val Pink80 = Color(0xFFFF80AB)       // Vibrant pink
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Dark theme colors
+val Purple40 = Color(0xFF5D00B3)     // Deep purple
+val PurpleGrey40 = Color(0xFF4B425B) // Dark muted purple-grey
+val Pink40 = Color(0xFF9E003A)       // Darker pink

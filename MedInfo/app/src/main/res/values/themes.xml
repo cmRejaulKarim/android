@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.MedInfo" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.MedInfo" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme, e.g. -->
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+        <item name="colorSecondary">@color/md_theme_secondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary</item>
+        <item name="android:windowBackground">@color/md_theme_background</item>
+    </style>
 </resources>
