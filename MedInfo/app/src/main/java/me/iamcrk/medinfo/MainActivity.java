@@ -1,24 +1,30 @@
 package me.iamcrk.medinfo;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextMedicine;
-    private Button buttonSearch;
-    private TextView textViewResult;
+    private EditText editTextSearch;
+    private RecyclerView recyclerView;
+    private MedicineAdapter adapter;
+    private List<Medicine> medicineList = new ArrayList<>();
 
     private FirebaseFirestore db;
 
@@ -27,71 +33,65 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextMedicine = findViewById(R.id.editTextMedicine);
-        buttonSearch = findViewById(R.id.buttonSearch);
-        textViewResult = findViewById(R.id.textViewResult);
+        editTextSearch = findViewById(R.id.editTextSearch);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new MedicineAdapter(medicineList, medicine -> showMedicineDetails(medicine));
+        recyclerView.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
 
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String medName = editTextMedicine.getText().toString().trim();
+        loadMedicines();
 
-                if (TextUtils.isEmpty(medName)) {
-                    Toast.makeText(MainActivity.this, "Enter a medicine name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                searchMedicine(medName);
+        // Search filter
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterMedicines(s.toString());
             }
+            @Override public void afterTextChanged(Editable s) {}
         });
     }
 
-    private void searchMedicine(String name) {
-        String searchText = name.toLowerCase(); // lowercase for consistent search
-
-
-        // Get all medicines and filter client-side
+    private void loadMedicines() {
         db.collection("medicines")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        StringBuilder resultBuilder = new StringBuilder();
-                        boolean found = false;
-
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            String medSearchName = document.getString("searchName");
-                            Log.d("DEBUG_FIRESTORE", "Document searchName: " + medSearchName + ", searching for: " + searchText);
-                        }
-
-
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            String medSearchName = document.getString("searchName");
-                            if (medSearchName != null && medSearchName.contains(searchText)) {
-                                found = true;
-                                String medNameValue = document.getString("name");
-                                String description = document.getString("description");
-                                String uses = document.getString("uses");
-                                String sideEffects = document.getString("sideEffects");
-
-                                resultBuilder.append("Name: ").append(medNameValue).append("\n\n")
-                                        .append("Description: ").append(description).append("\n\n")
-                                        .append("Uses: ").append(uses).append("\n\n")
-                                        .append("Side Effects: ").append(sideEffects)
-                                        .append("\n\n------------------\n\n");
-                            }
-                        }
-
-                        if (found) {
-                            textViewResult.setText(resultBuilder.toString());
-                        } else {
-                            textViewResult.setText("Medicine not found.");
-                        }
-                    } else {
-                        textViewResult.setText("Medicine not found.");
+                    medicineList.clear();
+                    for (var doc : queryDocumentSnapshots) {
+                        Medicine med = doc.toObject(Medicine.class);
+                        medicineList.add(med);
                     }
+                    // Sort alphabetically
+                    Collections.sort(medicineList, Comparator.comparing(Medicine::getName, String.CASE_INSENSITIVE_ORDER));
+                    adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> textViewResult.setText("Error: " + e.getMessage()));
+                .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    private void filterMedicines(String query) {
+        query = query.toLowerCase();
+        List<Medicine> filtered = new ArrayList<>();
+        for (Medicine med : medicineList) {
+            if (med.getSearchName() != null && med.getSearchName().contains(query)) {
+                filtered.add(med);
+            }
+        }
+        adapter = new MedicineAdapter(filtered, this::showMedicineDetails);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void showMedicineDetails(Medicine medicine) {
+        String message = "Name: " + medicine.getName() + "\n\n"
+                + "Description: " + medicine.getDescription() + "\n\n"
+                + "Uses: " + medicine.getUses() + "\n\n"
+                + "Side Effects: " + medicine.getSideEffects();
+
+        new AlertDialog.Builder(this)
+                .setTitle("Medicine Details")
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
     }
 }
