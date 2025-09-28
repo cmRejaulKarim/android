@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "25832149088",
-    "project_id": "firebasetest-e9e9fb1d",
-    "storage_bucket": "firebasetest-e9e9fb1d.firebasestorage.app"
+    "project_number": "1065606564055",
+    "project_id": "me-iamcrk-medinfo",
+    "storage_bucket": "me-iamcrk-medinfo.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:25832149088:android:29bb2b66c30d41b9677305",
+        "mobilesdk_app_id": "1:1065606564055:android:e00e6640692b1e97a3c892",
         "android_client_info": {
           "package_name": "me.iamcrk.medinfo"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA0wBzLRPa1icFyhBrxXTSYM6uowUwzPJg"
+          "current_key": "AIzaSyBw78khsb3gReyCp39CR3z3wzf9TBON33Q"
         }
       ],
       "services": {
