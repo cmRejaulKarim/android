@@ -2,65 +2,135 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@color/appBackground"
-    >
+    android:padding="16dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="50dp"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
+        <!-- Header Title -->
         <TextView
-            android:id="@+id/textName"
+            android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medicine Name"
+            android:text="Medicine Details"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginBottom="30dp" />
+            android:textColor="@color/purple_500"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp" android:layout_marginBottom="8dp"/>
 
-        <TextView
-            android:text="Description:"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
-
-        <TextView
-            android:text="Uses:"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textUses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
-
-        <TextView
-            android:text="Side Effects:"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textSideEffects"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"/>
-
+        <!-- Edit Button top-right -->
         <Button
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit" />
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:paddingHorizontal="16dp"
+            android:text="Edit"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@id/headerTitle"
+            android:backgroundTint="@color/purple_500"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"/>
 
-    </LinearLayout>
+        <!-- Details container -->
+        <LinearLayout
+            android:id="@+id/detailsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/headerTitle"
+            android:layout_marginTop="16dp">
+
+            <!-- Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="@color/detailRow1"
+                android:layout_marginBottom="8dp"
+                android:backgroundTintMode="src_over">
+
+                <TextView
+                    android:text="Name:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/textName"
+                    android:textSize="18sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <!-- Description -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="@color/detailRow2"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:text="Description:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/textDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <!-- Uses -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="@color/detailRow1"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:text="Uses:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/textUses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <!-- Side Effects -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="@color/detailRow2"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:text="Side Effects:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/textSideEffects"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 </ScrollView>

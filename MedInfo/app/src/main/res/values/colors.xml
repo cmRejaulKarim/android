@@ -12,4 +12,7 @@
     <color name="purple_500">#830462</color>
     <color name="appBackground">#E3F2FD</color> <!-- Light cool blue -->
     <color name="colorAccent">#1976D2</color>   <!-- Deep blue -->
+    <color name="detailRow1">#E8F0FE</color>
+    <color name="detailRow2">#F1F3F6</color>
+
 </resources>
