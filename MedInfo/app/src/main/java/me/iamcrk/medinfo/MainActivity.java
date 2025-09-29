@@ -83,18 +83,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchMedicines(String keyword) {
+        if (keyword.isEmpty()) {
+            medicineList.clear();
+            adapter.updateList(medicineList);
+            return;
+        }
+
+        String lowerKeyword = keyword.toLowerCase();
+
         db.collection("medicines")
-                .orderBy("searchName", Query.Direction.ASCENDING)
-                .startAt(keyword.toLowerCase())
-                .endAt(keyword.toLowerCase() + "\uf8ff")
+                .orderBy("name", Query.Direction.ASCENDING) // order alphabetically
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     medicineList.clear();
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         Medicine med = doc.toObject(Medicine.class);
-                        if (med != null) medicineList.add(med);
+                        if (med != null) {
+                            // Check if keyword exists in name, description, uses, or sideEffects
+                            if ((med.getName() != null && med.getName().toLowerCase().contains(lowerKeyword)) ||
+                                    (med.getDescription() != null && med.getDescription().toLowerCase().contains(lowerKeyword)) ||
+                                    (med.getUses() != null && med.getUses().toLowerCase().contains(lowerKeyword))) {
+                                medicineList.add(med);
+                            }
+                        }
                     }
                     adapter.updateList(medicineList);
                 });
     }
+
 }
