@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +12,8 @@
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:layout_marginBottom="8dp"
         app:startIconDrawable="@android:drawable/ic_menu_search">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -18,18 +21,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search medicine..."
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- RecyclerView below search -->
+    <!-- Horizontal scrollable filters -->
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollViewFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchLayout"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupFilters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacing="8dp"
+            app:singleSelection="true"
+            app:selectionRequired="false"/>
+    </HorizontalScrollView>
+
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchLayout"
+        android:layout_below="@id/horizontalScrollViewFilters"
         android:layout_marginTop="12dp"
         android:clipToPadding="false"
-        android:paddingBottom="80dp"/>
+        android:paddingBottom="80dp"
+        android:scrollbars="vertical"/>
 
     <!-- Floating Add Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

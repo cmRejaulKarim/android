@@ -4,28 +4,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextSearch;
+    private TextInputEditText editTextSearch;
     private RecyclerView recyclerView;
     private MedicineAdapter adapter;
     private List<Medicine> medicineList = new ArrayList<>();
     private FirebaseFirestore db;
     private FloatingActionButton fabAdd;
+    private ChipGroup chipGroupFilters;
+    private String selectedFilter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         editTextSearch = findViewById(R.id.editTextSearch);
         recyclerView = findViewById(R.id.recyclerView);
         fabAdd = findViewById(R.id.fabAdd);
+        chipGroupFilters = findViewById(R.id.chipGroupFilters);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MedicineAdapter(this, medicineList);
@@ -42,73 +50,73 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // Floating button → go to Add screen
-        fabAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
-            startActivity(intent);
-        });
+        // Load filters dynamically from medicine uses
+        setupFilters();
 
         // Search listener
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(Editable s) {}
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String keyword = s.toString().trim();
-                if (keyword.isEmpty()) {
-                    loadAllMedicines();  // show all when search box empty
-                } else {
-                    searchMedicines(keyword);
-                }
+                searchMedicines(s.toString().trim(), selectedFilter);
             }
         });
 
-        // Load all initially
-        loadAllMedicines();
+        // Floating Add button
+        fabAdd.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AddEditActivity.class)));
+
+        // Initially load all medicines
+        searchMedicines("", null);
     }
 
-    private void loadAllMedicines() {
-        db.collection("medicines")
-                .orderBy("searchName", Query.Direction.ASCENDING)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    medicineList.clear();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                        Medicine med = doc.toObject(Medicine.class);
-                        if (med != null) medicineList.add(med);
+    private void setupFilters() {
+        db.collection("medicines").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            Set<String> keywords = new HashSet<>();
+            for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                Medicine med = doc.toObject(Medicine.class);
+                if (med != null && med.getUses() != null) {
+                    String[] words = med.getUses().split(",\\s*"); // Split by comma
+                    keywords.addAll(Arrays.asList(words));
+                }
+            }
+
+            // Add chips dynamically
+            for (String keyword : keywords) {
+                Chip chip = new Chip(this);
+                chip.setText(keyword);
+                chip.setCheckable(true);
+                chip.setOnClickListener(v -> {
+                    if (chip.isChecked()) {
+                        selectedFilter = keyword;
+                    } else {
+                        selectedFilter = null;
                     }
-                    adapter.updateList(medicineList);
+                    searchMedicines(editTextSearch.getText().toString().trim(), selectedFilter);
                 });
+                chipGroupFilters.addView(chip);
+            }
+        });
     }
 
-    private void searchMedicines(String keyword) {
-        if (keyword.isEmpty()) {
-            medicineList.clear();
-            adapter.updateList(medicineList);
-            return;
-        }
-
-        String lowerKeyword = keyword.toLowerCase();
-
+    private void searchMedicines(String keyword, String filter) {
         db.collection("medicines")
-                .orderBy("name", Query.Direction.ASCENDING) // order alphabetically
+                .orderBy("name")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     medicineList.clear();
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         Medicine med = doc.toObject(Medicine.class);
-                        if (med != null) {
-                            // Check if keyword exists in name, description, uses, or sideEffects
-                            if ((med.getName() != null && med.getName().toLowerCase().contains(lowerKeyword)) ||
-                                    (med.getDescription() != null && med.getDescription().toLowerCase().contains(lowerKeyword)) ||
-                                    (med.getUses() != null && med.getUses().toLowerCase().contains(lowerKeyword))) {
-                                medicineList.add(med);
-                            }
+                        if (med != null &&
+                                (keyword.isEmpty()
+                                        || med.getName().toLowerCase().contains(keyword.toLowerCase())
+                                        || (med.getUses() != null && med.getUses().toLowerCase().contains(keyword.toLowerCase()))
+                                        || (med.getDescription() != null && med.getDescription().toLowerCase().contains(keyword.toLowerCase())))
+                                && (filter == null || (med.getUses() != null && med.getUses().toLowerCase().contains(filter.toLowerCase())))) {
+                            medicineList.add(med);
                         }
                     }
                     adapter.updateList(medicineList);
                 });
     }
-
 }
