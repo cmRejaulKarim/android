@@ -10,4 +10,6 @@
     <color name="white">#FFFFFF</color>
     <color name="md_theme_background">#FFFBFE</color>
     <color name="purple_500">#830462</color>
+    <color name="appBackground">#E3F2FD</color> <!-- Light cool blue -->
+    <color name="colorAccent">#1976D2</color>   <!-- Deep blue -->
 </resources>

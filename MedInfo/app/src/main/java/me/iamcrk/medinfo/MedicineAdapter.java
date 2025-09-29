@@ -1,6 +1,5 @@
 package me.iamcrk.medinfo;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
-
 
 public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder> {
     private Context context;
@@ -48,7 +45,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
     @Override
     public int getItemCount() {
-        return medicineList.size();
+        return medicineList == null ? 0 : medicineList.size();
     }
 
     public void updateList(List<Medicine> newList) {
